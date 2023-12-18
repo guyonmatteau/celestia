@@ -1,3 +1,4 @@
+# https://learn.microsoft.com/en-us/azure/container-instances/container-instances-reference-yaml
 # deploy mainnet light node to Azure
 apiVersion: '2019-12-01'
 location: westeurope
@@ -6,12 +7,14 @@ properties:
   containers:
   - name: celestia
     properties:
-      environmentVariables: 
-        NODE_TYPE: light
-        P2P_NETWORK: celestia
+      environmentVariables:
+      - name: NODE_TYPE
+        value: light
+      - name: P2P_NETWORK
+        value: celestia
       image: ghcr.io/celestiaorg/celestia-node:v0.12.0
-      ports:
-      - port: 80
+      #ports:
+      #- port: 80
       resources:
         requests:
           cpu: 1.0
@@ -20,12 +23,12 @@ properties:
       - mountPath: /home/celestia
         name: nodestore
   osType: Linux
-  restartPolicy: Always
-  ipAddress:
-    type: Public
-    ports:
-      - port: 80
-    dnsNameLabel: aci-demo
+  restartPolicy: Never
+  #ipAddress:
+    #type: Public
+    #ports:
+      #- port: 80
+    #dnsNameLabel: aci-demo
   volumes:
   - name: nodestore
     azureFile:

@@ -14,3 +14,4 @@ tags
 
 # persistent volume when node runs
 node-store
+deploy.yml
