@@ -1,0 +1,16 @@
+*.pyc
+__pycache__/*
+__pycache__
+.ruff_cache/
+.ruff_cache
+.mypy_cache
+.env*
+.venv
+dist
+
+# development
+tags
+*.vscode/
+
+# persistent volume when node runs
+node-store

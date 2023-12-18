@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  celestia:
+    image: ghcr.io/celestiaorg/celestia-node:v0.12.0
+    environment:
+      # The celestia init command is baked in the image (the celestia start command is not).
+      # To specifiy parameters for this command use the envvars
+      # specify which node type is initialized
+      - NODE_TYPE=light 
+      # specifiy for which network the node is initialized
+      # celestia maps node .celestia-light, mocha maps to .celestia-light-mocha-4
+      - P2P_NETWORK=celestia  
+    command:
+      - celestia 
+      - light
+      - start
+      - --node.store
+      - /home/celestia/.celestia-light
+      - --core.ip 
+      - rpc.celestia.pops.one
+      - --p2p.network
+      - celestia
+      #- --keyring.accname 
+      #- dev03  # dev03 only exists on mocha
+    ports:
+      - 26657:26657
+      - 26658:26658
+      - 26659:26659
+    volumes:
+      # in node-store we have .celestia-light/keyring-test/keys 
+      - ./node-store:/home/celestia
+  mocha:
+    image: ghcr.io/celestiaorg/celestia-node:v0.12.0
+    environment:
+      - NODE_TYPE=light
+      - P2P_NETWORK=mocha
+    command:
+      - celestia 
+      - light
+      - start
+      - --node.store
+      - /home/celestia/.celestia-light-mocha-4
+      - --core.ip 
+      - rpc-mocha.pops.one
+      - --p2p.network
+      - mocha
+      - --keyring.accname 
+      - dev03
+    ports:
+      - 26657:26657
+      - 26658:26658
+      - 26659:26659
+    volumes:
+      # in node-store we have .celestia-light-mocha-4/keyring-test/keys
+      - ./node-store:/home/celestia
