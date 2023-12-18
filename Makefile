@@ -4,11 +4,11 @@ include .env
 export 
 
 RG = rg-node-01
-FILE = deploy.yml
+TEMPLATE = deploy.yml
+OUTPUT = deploy.yaml
 
 deploy:
-	#source .env
-	envsubst < deploy.tpl > deploy.yml
-	az container create --resource-group $(RG) --file $(FILE) --output json
+	envsubst < deploy.yml > deploy.yaml
+	az container create --resource-group $(RG) --file $(OUTPUT) --output json
 
 
